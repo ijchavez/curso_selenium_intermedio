@@ -1,9 +1,6 @@
 package Intermedio.Clase5_PageObject.ecommerceSite;
 
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.AuthenticationPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.LandingPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.MyAccountPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.NewAccountPage;
+import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.*;
 import Intermedio.Clase5_PageObject.ecommerceSite.Tests.BaseTest;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
@@ -81,49 +78,10 @@ public class Utilities extends BaseTest {
         comboYears.selectByValue(unAño);
 
     }
+
+
     //esto me parecio ponerlo aca y no en la clase de constantes ya que es una utilidad que se puede usar en otras paginas
-    public String getFakerName(){
-        String unfakerName = Constants.FAKER.name().firstName();
-        return unfakerName;
 
-    }
-    public String getFakerLastName(){
-        String unfakerlastName = Constants.FAKER.name().lastName();
-        return unfakerlastName;
-
-    }
-    public String getFakerEmail(){
-        String anEmail = "gerardo" + Math.random() + "test@gmail.com";
-        return anEmail;
-    }
-    public String getRandomDay(){
-        //hago que ponga un dia random entre 1 y 28, si bien puede refinarse con eso me alcanza
-        int min = 1;
-        int max = 28;
-        int randomInt = (int)(Math.random() * (max - min + 1) + min);
-
-        String dayRandomText = Integer.toString(randomInt);
-        return dayRandomText;
-
-    }
-    public String getRandomMonth(){
-        int min = 1;
-        int max = 12;
-        int randomInt = (int)(Math.random() * (max - min + 1) + min);
-
-        String dayRandomText = Integer.toString(randomInt);
-        return dayRandomText;
-
-    }
-    public String getRandomYear(){
-        int min = 1940;
-        int max = 2000;
-        int randomInt = (int)(Math.random() * (max - min + 1) + min);
-
-        String dayRandomYear = Integer.toString(randomInt);
-        return dayRandomYear;
-
-    }
 
 
 

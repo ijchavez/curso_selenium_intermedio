@@ -1,6 +1,7 @@
 package Intermedio.Clase5_PageObject.ecommerceSite.PageObject;
 
 import Intermedio.Clase5_PageObject.ecommerceSite.Constants;
+import Intermedio.Clase5_PageObject.ecommerceSite.FakeDataGenerator;
 import Intermedio.Clase5_PageObject.ecommerceSite.Utilities;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
@@ -152,12 +153,13 @@ public class NewAccountPage {
         getElementoGeneroClick();
 
         Utilities utilities = new Utilities(driver);
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(driver);
 
         getFirstNameToComplete(unNombre);
         getLastNameToComplete(unApellido);
         getPasswordToComplete();
 
-        utilities.comboDiaMesAño(utilities.getRandomDay(), utilities.getRandomMonth(), utilities.getRandomYear());
+        utilities.comboDiaMesAño(fakeDataGenerator.getRandomDay(), fakeDataGenerator.getRandomMonth(), fakeDataGenerator.getRandomYear());
 
         Constants constants = new Constants();
 

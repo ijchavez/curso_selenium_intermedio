@@ -22,6 +22,7 @@ public class MyAccountPage {
         AuthenticationPage authenticationPage = new AuthenticationPage(driver);
         return authenticationPage;
 
+
     }
     @FindBy(xpath = "//*[@href='http://automationpractice.com/index.php?controller=identity']")
     public WebElement myPersonalInformationBtn;
@@ -50,5 +51,20 @@ public class MyAccountPage {
         String myAccountH1Text = myAccountH1.getText();
         return myAccountH1Text;
     }
+
+    @FindBy(xpath = "//*[@id='block_top_menu']/ul/li[2]/a")
+    // tuve que buscarlo asi porque no me lo encontraba con el link, despues revise y es el xpath relativo
+    // la busqueda anidada funciona
+    //(xpath = "//*[@href='http://automationpractice.com/index.php?id_category=8&controller=category'")
+    public WebElement dressesBtn;
+
+    public DressesPage clickOnDressesBtn(){
+        dressesBtn.click();
+        DressesPage dressesPage = new DressesPage(driver);
+
+        return dressesPage;
+
+    }
+
 
 }

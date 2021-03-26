@@ -1,11 +1,10 @@
 package Intermedio.Clase5_PageObject.ecommerceSite.Tests;
 
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.AuthenticationPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.LandingPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.MyAccountPage;
-import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.MyPersonalInformationPage;
+import Intermedio.Clase5_PageObject.ecommerceSite.Constants;
+import Intermedio.Clase5_PageObject.ecommerceSite.FakeDataGenerator;
+import Intermedio.Clase5_PageObject.ecommerceSite.PageObject.*;
 import Intermedio.Clase5_PageObject.ecommerceSite.Utilities;
-import com.github.javafaker.Faker;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,10 +14,11 @@ public class EcommerceSite extends BaseTest{
     public void registrationTest() throws InterruptedException {
 
         Utilities utilities = new Utilities(driver);
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(driver);
 
-        String fakerName = utilities.getFakerName();
-        String fakerlastName = utilities.getFakerLastName();
-        String myEmail = utilities.getFakerEmail();
+        String fakerName = fakeDataGenerator.getFakerName();
+        String fakerlastName = fakeDataGenerator.getFakerLastName();
+        String myEmail = fakeDataGenerator.getFakerEmail();
 
         MyAccountPage myAccountPage = utilities.registrationToSite(myEmail,fakerName,fakerlastName);
         MyPersonalInformationPage myPersonalInformationPage = myAccountPage.clickOnMyPersonalInformationBtn();
@@ -46,10 +46,11 @@ public class EcommerceSite extends BaseTest{
     public void loginTest() throws InterruptedException {
 
         Utilities utilities = new Utilities(driver);
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(driver);
 
-        String fakerName = utilities.getFakerName();
-        String fakerlastName = utilities.getFakerLastName();
-        String myEmail = utilities.getFakerEmail();
+        String fakerName = fakeDataGenerator.getFakerName();
+        String fakerlastName = fakeDataGenerator.getFakerLastName();
+        String myEmail = fakeDataGenerator.getFakerEmail();
 
         MyAccountPage myAccountPage = utilities.registrationToSite(myEmail,fakerName,fakerlastName);
         AuthenticationPage authenticationPage = myAccountPage.clickLogOutBtn();
@@ -58,7 +59,7 @@ public class EcommerceSite extends BaseTest{
         System.out.println("Previo al login --> " + urlNotSignedAccount);
 
         authenticationPage.emailLoginFieldInput(myEmail);
-        authenticationPage.passwordLoginField("pass1234");
+        authenticationPage.passwordLoginField(Constants.PASSWORD);
 
         authenticationPage.clickOnLogInBtn();
 
@@ -72,7 +73,7 @@ public class EcommerceSite extends BaseTest{
         String myAccountH1Text = myAccountPage.myAccountH1GetText();
         System.out.println(myAccountH1Text);
 
-        Assert.assertEquals("MY ACCOUNT",myAccountH1Text);
+        Assert.assertEquals(myAccountH1Text,"MY ACCOUNT");
         Assert.assertTrue(nameBtnText.contains(fakerName));
         Assert.assertTrue(nameBtnText.contains(fakerlastName));
     }
@@ -80,10 +81,11 @@ public class EcommerceSite extends BaseTest{
     @Test
     public void checkUserNameIsUnique() throws InterruptedException {
         Utilities utilities = new Utilities(driver);
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(driver);
 
-        String myEmail = utilities.getFakerEmail();
-        String fakerName = utilities.getFakerName();
-        String fakerlastName = utilities.getFakerLastName();
+        String fakerName = fakeDataGenerator.getFakerName();
+        String fakerlastName = fakeDataGenerator.getFakerLastName();
+        String myEmail = fakeDataGenerator.getFakerEmail();
 
         MyAccountPage myAccountPage = utilities.registrationToSite(myEmail,fakerName,fakerlastName);
         AuthenticationPage authenticationPage = myAccountPage.clickLogOutBtn();
@@ -94,11 +96,65 @@ public class EcommerceSite extends BaseTest{
 
         String duplicateMailErrText = authenticationPage.getDuplicateMailErr();
 
-        Assert.assertEquals("An account using this email address has already been registered. Please enter a valid password or request a new one.",
-                duplicateMailErrText);
+        Assert.assertEquals(duplicateMailErrText,Constants.DUPLICATE_MAIL_ERROR_TEXT);
 
     }
 
-    //Hacer un test para comprar un vestido
+    @Test
+    public void buyADress() throws InterruptedException {
+        Utilities utilities = new Utilities(driver);
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(driver);
+
+        String fakerName = fakeDataGenerator.getFakerName();
+        String fakerLastName = fakeDataGenerator.getFakerLastName();
+        String myEmail = fakeDataGenerator.getFakerEmail();
+
+        MyAccountPage myAccountPage = utilities.registrationToSite(myEmail,fakerName,fakerLastName);
+
+        DressesPage dressesPage = myAccountPage.clickOnDressesBtn();
+        dressesPage.clickOnQuickViewButtonPrintedSummerDress();
+
+        String precioEnDressPage = dressesPage.getOurPriceDisplay();
+
+        ShoppingCartPage shoppingCartPage = dressesPage.setArticleInformationForBuying();
+
+        String precioEnShoppingCartPage = shoppingCartPage.getUnitPriceDisplay();
+
+        System.out.println("DressPage: " + precioEnDressPage);
+        System.out.println("ShoppingCartPage: " + precioEnShoppingCartPage);
+
+
+        Assert.assertEquals(precioEnDressPage,precioEnShoppingCartPage);
+
+        String shoppingCartSummaryText = shoppingCartPage.getShoppingCartSummaryText();
+        Assert.assertTrue(shoppingCartSummaryText.contains(Constants.SHOPPING_CART_TITLE));
+
+        shoppingCartPage.proceedToCheckOutInSummaryBtnClick();
+
+        Assert.assertEquals(shoppingCartPage.getAdressesText(),Constants.ADDRESS_TITLE);
+
+        shoppingCartPage.clickOnProceedToCheckOutInAddressBtn();
+
+        Thread.sleep(4000);
+
+        Assert.assertEquals(shoppingCartPage.getShippingText(),Constants.SHIPPING_TITLE);
+        Assert.assertEquals(shoppingCartPage.getDeliveryOptionPrice(),Constants.SHIPPING_RATE);
+
+
+        boolean termsOfServiceClick = false;
+
+        shoppingCartPage.setTermsOfServiceCheckBoxClick();
+
+        if (shoppingCartPage.termsOfServiceCheckBox.isSelected() == true){
+            termsOfServiceClick = true;
+
+        }
+        Assert.assertTrue(termsOfServiceClick);
+
+
+
+
+    }
+
 
 }

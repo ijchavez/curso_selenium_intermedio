@@ -42,7 +42,7 @@ public class BaseTest {
         System.out.println("--------------------");
         String endTest = "Se ha terminado de ejecutar el test";
         System.out.println(endTest);
-        driver.close();
+        //driver.close();
 
     }
 
