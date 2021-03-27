@@ -12,7 +12,11 @@ public class Constants {
     public static String ADDRESS_TITLE = "Addresses";
     public static String SHIPPING_TITLE = "Shipping";
     public static String SHIPPING_RATE = "$2.00";
-
+    public static String AGREEMENT_TERMS_MESSAGE = "You must agree to the terms of service before continuing.";
+    // dice que sale de esta manera el webdriver pero esta escrito asi: Please choose your payment method
+    public static String PAYMENT_METHOD_TITLE= "PLEASE CHOOSE YOUR PAYMENT METHOD";
+    public static String BANK_WIRE_PAYMENT = "Bank-wire payment.";
+    public static String ORDER_HISTORY_TITLE = "Order history";
 
     public String getCompanyName(){
         String companyName = FAKER.company().name();

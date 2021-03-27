@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class ShoppingCartPage {
     WebDriver driver;
 
@@ -85,8 +87,104 @@ public class ShoppingCartPage {
         termsOfServiceCheckBox.click();
 
     }
-    // boton para proceed to checkout a payment
 
-    //name="processCarrier"
+    @FindBy(className = "fancybox-inner")
+    public WebElement termsAgreementMsgBox;
+
+    public String getTermsAgreementMsgBox(){
+        String termsAgreementMsgBoxText = termsAgreementMsgBox.getText();
+        return termsAgreementMsgBoxText;
+
+    }
+
+    @FindBy(xpath ="//*[@title='Close']")
+    public WebElement termsAgreementClose;
+
+    public void clickOnTermsAgreementCloseBtn(){
+        termsAgreementClose.click();
+
+    }
+
+    @FindBy(name="processCarrier")
+    public WebElement proceedToCheckOutOnShipping;
+
+    public void clickOnProceedToCheckOutOnShipping(){
+        proceedToCheckOutOnShipping.click();
+
+    }
     //Step 5 Payment
+
+    @FindBy(className="page-heading")
+    public WebElement paymentMethodChooseTitle;
+
+    public String getPaymentMethodChooseTitleText(){
+        String paymentMethodChoosetitleText = paymentMethodChooseTitle.getText();
+        return  paymentMethodChoosetitleText;
+
+    }
+    @FindBy(className = "bankwire")
+    public WebElement payByBankWire;
+
+    public void clickOnPayByBankWire(){
+        payByBankWire.click();
+
+    }
+
+    @FindBy(className = "navigation_page")
+    public WebElement bankWirePaymentTitle;
+
+    public String getbankWirePaymentTitleText(){
+        String bankWirePaymentTitleText = bankWirePaymentTitle.getText();
+        return bankWirePaymentTitleText;
+
+    }
+
+    @FindBy(xpath = "//*[@id='center_column']/form/div")
+    List<WebElement> orderSummaryList;
+
+    public void getOrderSummaryList(){
+        for (WebElement summaryList: orderSummaryList){
+            String orderSummarylinkstText = summaryList.getText();
+
+            if (orderSummarylinkstText.isEmpty() == false){
+                System.out.println(orderSummarylinkstText);
+
+            }
+
+        }
+    }
+
+    @FindBy(xpath = "//*[contains(text(),'I confirm my order')]")
+    public WebElement iConfirmMyOrderBtn;
+
+    public void clickOniConfirmMyOrderBtn(){
+        iConfirmMyOrderBtn.click();
+
+    }
+    @FindBy(xpath = "//*[@id='center_column']/div")
+    List<WebElement> orderCompleteSummary;
+
+    public void getOrderCompleteSummaryList(){
+        for (WebElement completeSummaryList: orderCompleteSummary){
+            String CompleteOrderSummarylistText = completeSummaryList.getText();
+
+            if (CompleteOrderSummarylistText.isEmpty() == false){
+                System.out.println(CompleteOrderSummarylistText);
+
+            }
+
+        }
+    }
+
+    @FindBy(xpath = "//*[@href='http://automationpractice.com/index.php?controller=history'][@title='Back to orders']")
+    public WebElement backToOrdersBtn;
+
+    public OrdersPage clickOnBackToOrdersBtn(){
+        backToOrdersBtn.click();
+
+        OrdersPage ordersPage = new OrdersPage(driver);
+        return ordersPage;
+    }
+
+
 }

@@ -140,18 +140,59 @@ public class EcommerceSite extends BaseTest{
         Assert.assertEquals(shoppingCartPage.getShippingText(),Constants.SHIPPING_TITLE);
         Assert.assertEquals(shoppingCartPage.getDeliveryOptionPrice(),Constants.SHIPPING_RATE);
 
+        shoppingCartPage.clickOnProceedToCheckOutOnShipping();
+
+        Thread.sleep(3000);
+        String termsAgreementText = shoppingCartPage.getTermsAgreementMsgBox();
+        Assert.assertEquals(termsAgreementText,Constants.AGREEMENT_TERMS_MESSAGE);
+
+        shoppingCartPage.clickOnTermsAgreementCloseBtn();
 
         boolean termsOfServiceClick = false;
+        if (shoppingCartPage.termsOfServiceCheckBox.isSelected() == false){
+            shoppingCartPage.setTermsOfServiceCheckBoxClick();
+            termsOfServiceClick = true;
 
-        shoppingCartPage.setTermsOfServiceCheckBoxClick();
-
+        }
+        /****
         if (shoppingCartPage.termsOfServiceCheckBox.isSelected() == true){
             termsOfServiceClick = true;
 
         }
+         ****/
         Assert.assertTrue(termsOfServiceClick);
 
+        shoppingCartPage.clickOnProceedToCheckOutOnShipping();
 
+        String paymentMethodTitleText = shoppingCartPage.getPaymentMethodChooseTitleText();
+        Assert.assertEquals(paymentMethodTitleText,Constants.PAYMENT_METHOD_TITLE);
+
+        Thread.sleep(3000);
+
+        shoppingCartPage.clickOnPayByBankWire();
+
+        String bankWirePaymentTitleText = shoppingCartPage.getbankWirePaymentTitleText();
+        Assert.assertTrue(bankWirePaymentTitleText.contains(Constants.BANK_WIRE_PAYMENT));
+
+        System.out.println("****SUMMARY ORDER*****");
+        shoppingCartPage.getOrderSummaryList();
+
+        Thread.sleep(3000);
+        shoppingCartPage.clickOniConfirmMyOrderBtn();
+
+        System.out.println("****COMPLETE SUMMARY ORDER*****");
+        shoppingCartPage.getOrderCompleteSummaryList();
+
+        OrdersPage ordersPage = shoppingCartPage.clickOnBackToOrdersBtn();
+
+        String orderHistoryTitleText = ordersPage.getOrderHistoryTitle();
+        Assert.assertEquals(orderHistoryTitleText,Constants.ORDER_HISTORY_TITLE);
+
+        ordersPage.clickOnDetailsBtn();
+        Thread.sleep(3000);
+
+        String unitPriceInOrderText = ordersPage.getUnitPriceInOrder();
+        Assert.assertEquals(unitPriceInOrderText,precioEnShoppingCartPage);
 
 
     }
