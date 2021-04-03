@@ -65,7 +65,7 @@ public class Utilities extends BaseTest {
 
 
     }
-    public void comboDiaMesAño(String unDia, String unMes, String unAño){
+    public void comboDiaMesAño(String unDia, String unMes, String unAño) {
         NewAccountPage newAccountPage = new NewAccountPage(driver);
 
         Select comboDias = new Select(newAccountPage.elementoDias);
@@ -78,13 +78,6 @@ public class Utilities extends BaseTest {
         comboYears.selectByValue(unAño);
 
     }
-
-
-    //esto me parecio ponerlo aca y no en la clase de constantes ya que es una utilidad que se puede usar en otras paginas
-
-
-
-
 
 }
 /**************** asi esta la clase con los driver.findelements comentados, quedan excluidos de la version nueva ************************

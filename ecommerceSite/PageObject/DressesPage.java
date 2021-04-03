@@ -2,8 +2,10 @@ package Intermedio.Clase5_PageObject.ecommerceSite.PageObject;
 
 import Intermedio.Clase5_PageObject.ecommerceSite.Constants;
 import Intermedio.Clase5_PageObject.ecommerceSite.FakeDataGenerator;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -16,7 +18,8 @@ public class DressesPage {
         driver = remoteDriver;
         //En cada constructor debo ponerlo, mas si hago extends de clases y lo van a tomar varios
         PageFactory.initElements(driver, this);
-
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,200)");
     }
 
 
@@ -25,8 +28,22 @@ public class DressesPage {
     public WebElement quickViewButtonPrintedSummerDress;
 
     public void clickOnQuickViewButtonPrintedSummerDress(){
-        quickViewButtonPrintedSummerDress.click();
+        Actions actionToDoubleClick = new Actions(driver);
+        actionToDoubleClick.doubleClick(quickViewButtonPrintedSummerDress)
+                .click()
+                .perform();
 
+    }
+    @FindBy(xpath="//*[@title='Close']")
+    public WebElement popUpClose;
+
+    public void clickOnPopUpCloseBtn(){
+        popUpClose.click();
+
+    }
+    public boolean getPopUpCloseIsDisplay(){
+        boolean popUpIsDisplayed = popUpClose.isDisplayed();
+        return popUpIsDisplayed;
     }
 
     @FindBy(id="our_price_display")
@@ -36,6 +53,7 @@ public class DressesPage {
         String priceDisplayText = priceDisplay.getText();
         return priceDisplayText;
     }
+
 
     @FindBy(id = "quantity_wanted")
     public WebElement quantityWanted;
